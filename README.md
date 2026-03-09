@@ -159,12 +159,8 @@ Each host intentionally exposes a different passive hardening issue profile:
 
 ## Screenshots
 
-Add screenshots here for your GitHub page, such as:
+<img width="2009" height="1328" alt="image" src="https://github.com/user-attachments/assets/fd5b9a37-c0f3-45df-9c22-0ebe1dd85cd8" />
 
-- Landing page with the Google-style search interface
-- Results page showing the Gemini AI overview
-- Knowledge panel and categorized vulnerability findings
-- Local lab site testing examples
 
 ## Next Suggested Iterations
 
