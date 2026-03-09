@@ -151,11 +151,6 @@ Each host intentionally exposes a different passive hardening issue profile:
 - `beta`: permissive cross-origin behavior, unstable `503` response, and multiple exposed implementation banners
 - `gamma`: stronger transport settings with remaining CSP, clickjacking, and banner disclosure concerns
 
-## Guardrails
-
-- The UI requires an authorization affirmation before a search can run.
-- The app validates public domains, allows lab URLs with ports, and blocks raw IP input.
-- The backend uses passive data collection only and avoids exploit logic, brute-forcing, directory busting, or port scanning.
 
 ## Screenshots
 
@@ -165,10 +160,3 @@ Each host intentionally exposes a different passive hardening issue profile:
 
 <img width="2009" height="1267" alt="image" src="https://github.com/user-attachments/assets/d7127413-ea63-45af-9b1f-3802be3feafa" />
 
-
-## Next Suggested Iterations
-
-- Add caching for repeated lookups
-- Add a PDF export pipeline
-- Add an Ollama provider behind the same AI interface
-- Add tests for validators and classification rules
