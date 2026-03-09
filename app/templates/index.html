@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SentinelSearch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-[#202124] min-h-screen">
+    <main class="min-h-screen">
+        <section id="hero" class="min-h-screen flex items-center justify-center px-4">
+            <div class="w-full max-w-3xl text-center">
+                <h1 class="text-5xl md:text-7xl font-normal tracking-tight mb-8">
+                    <span class="text-[#4285F4]">S</span><span class="text-[#EA4335]">e</span><span class="text-[#FBBC05]">n</span><span class="text-[#4285F4]">t</span><span class="text-[#34A853]">i</span><span class="text-[#EA4335]">n</span><span class="text-[#FBBC05]">e</span><span class="text-[#4285F4]">l</span><span class="text-[#34A853]">S</span><span class="text-[#EA4335]">e</span><span class="text-[#FBBC05]">a</span><span class="text-[#4285F4]">r</span><span class="text-[#34A853]">c</span><span class="text-[#EA4335]">h</span>
+                </h1>
+
+                <form id="searchForm" class="space-y-5">
+                    <div class="rounded-full border border-gray-200 shadow-sm hover:shadow-md transition px-6 py-4 flex items-center gap-3">
+                        <svg class="w-5 h-5 text-[#70757a]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input
+                            id="domainInput"
+                            class="w-full outline-none text-lg"
+                            type="text"
+                            placeholder="Search a public domain or lab URL"
+                            autocomplete="off"
+                        />
+                    </div>
+
+                    <label class="flex items-start gap-3 text-left text-sm text-[#70757a] max-w-2xl mx-auto">
+                        <input id="authorizedCheckbox" type="checkbox" class="mt-1" />
+                        <span>I confirm I am authorized to assess this target and understand SentinelSearch performs passive, defensive reconnaissance only.</span>
+                    </label>
+
+                    <div class="flex items-center justify-center gap-3">
+                        <button id="heroSearchButton" type="submit" class="bg-[#4285F4] text-white px-6 py-2.5 rounded text-sm hover:brightness-95 disabled:opacity-70 disabled:cursor-not-allowed">
+                            Search
+                        </button>
+                        <button type="button" id="clearButton" class="bg-gray-100 px-6 py-2.5 rounded text-sm hover:bg-gray-200">
+                            Clear
+                        </button>
+                    </div>
+                </form>
+
+                <div id="heroLoading" class="hidden mt-6 flex items-center justify-center gap-3 text-sm text-[#70757a]">
+                    <div class="w-5 h-5 rounded-full border-2 border-gray-300 border-t-[#4285F4] animate-spin"></div>
+                    <span>Analyzing public footprint and generating AI summary...</span>
+                </div>
+
+                <p class="text-xs text-[#70757a] mt-8">
+                    Educational use only. No exploit guidance, brute-forcing, directory busting, or port scanning.
+                </p>
+            </div>
+        </section>
+
+        <section id="resultsSection" class="hidden px-4 md:px-10 pb-10">
+            <div class="max-w-7xl mx-auto">
+                <div class="sticky top-0 bg-white py-4 border-b border-gray-100">
+                    <div class="flex flex-col md:flex-row md:items-center gap-4">
+                        <div class="rounded-full border border-gray-200 shadow-sm px-5 py-3 flex items-center gap-3 flex-1 max-w-3xl">
+                            <svg class="w-5 h-5 text-[#70757a]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input id="topSearchInput" class="w-full outline-none" type="text" />
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="runAgainButton" class="bg-[#4285F4] text-white px-4 py-2 rounded text-sm disabled:opacity-70 disabled:cursor-not-allowed">Search</button>
+                            <button id="exportButton" class="bg-gray-100 px-4 py-2 rounded text-sm disabled:opacity-70 disabled:cursor-not-allowed">Export Markdown</button>
+                        </div>
+                    </div>
+                    <div id="filters" class="flex gap-5 text-sm text-[#70757a] mt-4 overflow-x-auto">
+                        <button data-filter="All" class="filter-button text-[#4285F4] border-b-2 border-[#4285F4] pb-2">All</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] gap-8 mt-6">
+                    <div>
+                        <p id="statusMessage" class="text-sm text-[#70757a] mb-4"></p>
+                        <div id="errorBox" class="hidden bg-red-50 text-red-700 border border-red-100 rounded-xl px-4 py-3 mb-4"></div>
+                        <div id="aiOverviewCard" class="hidden border border-gray-200 rounded-2xl p-5 mb-5 shadow-sm bg-[#4285F4]/[0.03]">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs bg-[#4285F4]/10 text-[#4285F4]">
+                                    AI Overview
+                                </span>
+                                <span class="text-xs text-[#70757a]">Gemini</span>
+                            </div>
+                            <p id="aiOverviewText" class="text-[15px] leading-7"></p>
+                        </div>
+                        <div id="classificationLegend" class="border border-gray-200 rounded-2xl p-5 mb-5 bg-white">
+                            <h3 class="text-sm font-medium mb-3">Classification Guide</h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-start gap-3">
+                                    <span class="inline-flex px-3 py-1 rounded-full text-xs bg-[#34A853]/10 text-[#137333]">Informational</span>
+                                    <p class="text-[#70757a]">Publicly visible metadata or context that supports asset inventory and defensive understanding.</p>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="inline-flex px-3 py-1 rounded-full text-xs bg-[#FBBC05]/20 text-[#8a6a00]">Low-Risk</span>
+                                    <p class="text-[#70757a]">A weaker signal or moderate concern that should be reviewed but is not necessarily an immediate hardening gap.</p>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="inline-flex px-3 py-1 rounded-full text-xs bg-[#EA4335]/10 text-[#EA4335]">Hardening Opportunity</span>
+                                    <p class="text-[#70757a]">A visible configuration, disclosure, or missing control that may warrant defensive improvement.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="resultCards" class="space-y-5"></div>
+                    </div>
+
+                    <aside id="knowledgePanel" class="self-start border border-gray-200 rounded-2xl p-5 shadow-sm hidden lg:block">
+                        <h2 class="text-xl font-medium mb-4">Knowledge Panel</h2>
+                        <dl id="knowledgeGrid" class="space-y-3 text-sm"></dl>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const state = {
+            currentResult: null,
+            filter: "All",
+        };
+
+        const hero = document.getElementById("hero");
+        const resultsSection = document.getElementById("resultsSection");
+        const form = document.getElementById("searchForm");
+        const domainInput = document.getElementById("domainInput");
+        const heroSearchButton = document.getElementById("heroSearchButton");
+        const heroLoading = document.getElementById("heroLoading");
+        const topSearchInput = document.getElementById("topSearchInput");
+        const authorizedCheckbox = document.getElementById("authorizedCheckbox");
+        const clearButton = document.getElementById("clearButton");
+        const runAgainButton = document.getElementById("runAgainButton");
+        const exportButton = document.getElementById("exportButton");
+        const resultCards = document.getElementById("resultCards");
+        const aiOverviewCard = document.getElementById("aiOverviewCard");
+        const aiOverviewText = document.getElementById("aiOverviewText");
+        const knowledgeGrid = document.getElementById("knowledgeGrid");
+        const filters = document.getElementById("filters");
+        const errorBox = document.getElementById("errorBox");
+        const statusMessage = document.getElementById("statusMessage");
+
+        function setLoading(isLoading) {
+            heroSearchButton.disabled = isLoading;
+            runAgainButton.disabled = isLoading;
+            exportButton.disabled = isLoading;
+            clearButton.disabled = isLoading;
+            domainInput.disabled = isLoading;
+            topSearchInput.disabled = isLoading;
+            authorizedCheckbox.disabled = isLoading;
+            heroLoading.classList.toggle("hidden", !isLoading || hero.classList.contains("hidden"));
+
+            if (isLoading) {
+                statusMessage.innerHTML = `
+                    <span class="inline-flex items-center gap-3">
+                        <span class="w-4 h-4 rounded-full border-2 border-gray-300 border-t-[#4285F4] animate-spin"></span>
+                        <span>Collecting passive findings and building Gemini overview...</span>
+                    </span>
+                `;
+            }
+        }
+
+        function tagColor(classification) {
+            if (classification === "Hardening Opportunity") return "bg-[#EA4335]/10 text-[#EA4335]";
+            if (classification === "Low-Risk") return "bg-[#FBBC05]/20 text-[#8a6a00]";
+            return "bg-[#34A853]/10 text-[#137333]";
+        }
+
+        function renderKnowledgePanel(result) {
+            const panel = [
+                ["Domain", result.knowledge_panel.domain],
+                ["Resolved IP", result.knowledge_panel.resolved_ip || "Unavailable"],
+                ["Provider", result.knowledge_panel.provider || "Unavailable"],
+                ["Country", result.knowledge_panel.country || "Unavailable"],
+                ["Registrar", result.knowledge_panel.registrar || "Unavailable"],
+                ["Nameservers", (result.knowledge_panel.nameservers || []).join(", ") || "Unavailable"],
+            ];
+
+            knowledgeGrid.innerHTML = panel.map(([label, value]) => `
+                <div>
+                    <dt class="text-[#70757a]">${label}</dt>
+                    <dd class="mt-1">${value}</dd>
+                </div>
+            `).join("");
+        }
+
+        function renderFilters(result) {
+            const categories = ["All", ...result.categories.map((category) => category.name)];
+            filters.innerHTML = categories.map((name) => `
+                <button
+                    data-filter="${name}"
+                    class="filter-button pb-2 ${state.filter === name ? "text-[#4285F4] border-b-2 border-[#4285F4]" : ""}"
+                >
+                    ${name}
+                </button>
+            `).join("");
+        }
+
+        function renderResults() {
+            if (!state.currentResult) return;
+
+            aiOverviewText.textContent = state.currentResult.overall_summary || "";
+            aiOverviewCard.classList.toggle("hidden", !state.currentResult.overall_summary);
+
+            const visibleCategories = state.filter === "All"
+                ? state.currentResult.categories
+                : state.currentResult.categories.filter((category) => category.name === state.filter);
+
+            resultCards.innerHTML = visibleCategories.map((category) => `
+                <article class="border border-gray-200 rounded-2xl p-5">
+                    <p class="text-sm text-[#4285F4] mb-2">${category.name}</p>
+                    <h3 class="text-xl mb-3">${category.summary}</h3>
+                    <div class="space-y-3">
+                        ${category.findings.map((finding) => `
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
+                                    <div>
+                                        <p class="font-medium">${finding.title}</p>
+                                        <p class="text-sm text-[#70757a]">${finding.source}</p>
+                                    </div>
+                                    <span class="inline-flex w-fit px-3 py-1 rounded-full text-xs ${tagColor(finding.classification)}">
+                                        ${finding.classification}
+                                    </span>
+                                </div>
+                                <p class="text-sm mb-2">${finding.value}</p>
+                                <p class="text-sm text-[#70757a]"><strong>Defensive Insight:</strong> ${finding.defensive_insight}</p>
+                            </div>
+                        `).join("")}
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        async function runSearch(domain, authorized) {
+            errorBox.classList.add("hidden");
+            errorBox.textContent = "";
+            aiOverviewCard.classList.add("hidden");
+            resultCards.innerHTML = "";
+            setLoading(true);
+
+            try {
+                const response = await fetch("/api/search", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ domain, authorized }),
+                });
+
+                const payload = await response.json();
+                if (!response.ok) {
+                    throw new Error(payload.detail || "Search failed.");
+                }
+
+                state.currentResult = payload;
+                state.filter = "All";
+                hero.classList.add("hidden");
+                heroLoading.classList.add("hidden");
+                resultsSection.classList.remove("hidden");
+                topSearchInput.value = payload.target;
+                statusMessage.textContent = payload.disclaimer;
+                renderKnowledgePanel(payload);
+                renderFilters(payload);
+                renderResults();
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function exportMarkdown() {
+            if (!state.currentResult) return;
+
+            const response = await fetch("/api/export/markdown", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(state.currentResult),
+            });
+
+            const content = await response.text();
+            const blob = new Blob([content], { type: "text/markdown" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "sentinelsearch-report.md";
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            try {
+                await runSearch(domainInput.value, authorizedCheckbox.checked);
+            } catch (error) {
+                errorBox.textContent = error.message;
+                errorBox.classList.remove("hidden");
+                statusMessage.textContent = "";
+            }
+        });
+
+        runAgainButton.addEventListener("click", async () => {
+            try {
+                await runSearch(topSearchInput.value, true);
+            } catch (error) {
+                errorBox.textContent = error.message;
+                errorBox.classList.remove("hidden");
+                statusMessage.textContent = "";
+            }
+        });
+
+        clearButton.addEventListener("click", () => {
+            domainInput.value = "";
+            authorizedCheckbox.checked = false;
+        });
+
+        exportButton.addEventListener("click", exportMarkdown);
+
+        filters.addEventListener("click", (event) => {
+            const button = event.target.closest(".filter-button");
+            if (!button || !button.dataset.filter) return;
+            state.filter = button.dataset.filter;
+            renderFilters(state.currentResult);
+            renderResults();
+        });
+    </script>
+</body>
+</html>
