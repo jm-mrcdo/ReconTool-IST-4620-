@@ -161,6 +161,10 @@ Each host intentionally exposes a different passive hardening issue profile:
 
 <img width="2009" height="1328" alt="image" src="https://github.com/user-attachments/assets/fd5b9a37-c0f3-45df-9c22-0ebe1dd85cd8" />
 
+<img width="2009" height="1323" alt="image" src="https://github.com/user-attachments/assets/dea6b40b-d175-4af1-8c46-a31d3b30095b" />
+
+<img width="2009" height="1267" alt="image" src="https://github.com/user-attachments/assets/d7127413-ea63-45af-9b1f-3802be3feafa" />
+
 
 ## Next Suggested Iterations
 
