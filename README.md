@@ -1,30 +1,31 @@
-SentinelSearch: Passive Recon for Education
+## SentinelSearch: Passive Recon for Education
 
 SentinelSearch is a web tool built to make passive vulnerability discovery feel as familiar as a Google search. It’s designed for cybersecurity students and researchers to map out a target's public footprint—things like DNS records, WHOIS data, and HTTP headers—without ever touching the target's actual infrastructure.
 
 The goal was to move away from the clunky, fragmented output of traditional security tools and create something structured, readable, and focused on defensive hardening.
-What it does
 
-    Google-Style Search: A simple, familiar interface for reconnaissance.
+What it does:
 
-    Passive Modules: Pulls data from DNS, WHOIS, certificate transparency logs, and technology fingerprints.
+   Google-Style Search: A simple, familiar interface for reconnaissance.
 
-    AI Summaries: Uses Gemini to turn technical data into a professional overview of a site's security posture.
+   Passive Modules: Pulls data from DNS, WHOIS, certificate transparency logs, and technology fingerprints.
 
-    Automatic Tagging: Findings are labeled as Informational, Low-Risk, or Hardening Opportunity based on built-in rules.
+   AI Summaries: Uses Gemini to turn technical data into a professional overview of a site's security posture.
 
-    Markdown Export: Generate reports instantly for academic or professional documentation.
+   Automatic Tagging: Findings are labeled as Informational, Low-Risk, or Hardening Opportunity based on built-in rules.
 
-    Built-in Lab: Includes three intentionally weak sites (alpha, beta, and gamma) to practice on locally.
+   Markdown Export: Generate reports instantly for academic or professional documentation.
 
-Quick Start
+   Built-in Lab: Includes three intentionally weak sites (alpha, beta, and gamma) to practice on locally.
 
-    Install dependencies:
-    Setup your environment: (Create a .env file to add your API key for AI feature)
-    Run The App
+## Quick Start
+
+   Install dependencies:
+   Setup your environment: (Create a .env file to add your API key for AI feature)
+   Run The App
 
 
-Why I built this
+## Why I built this
 
 Most security tools assume you already know exactly what you're looking for. SentinelSearch lowers that barrier by presenting findings in a clean layout with AI-generated context, helping learners understand why a missing security header or an exposed server banner actually matters.        
 
