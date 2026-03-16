@@ -1,52 +1,4 @@
- Gemini
-SentinelSearch: Passive Recon Tool
-New chat
-My stuff
-Gems
-Chats
-SentinelSearch: Passive Recon Tool
-Weekend Cybersecurity Resume Projects
-Project Explanation for a 10-Year-Old
-Proxmox on ThinkPad T14
-Reset Kali Linux Credentials Via GRUB
-SSD Drive Comparison: Micron 2300 vs. 2400
-Gigabyte Monitor Stuck Blank Screen
-Responding to Django Discussion Post
-Hybrid KVM Switch Recommendations
-Intuit Dome Concert Seating Comparison
-Nmap Network Scanning For Cybersecurity Lab
-Practice Nmap Safely Online
-Linear Regression Analysis of Customer Spending
-Understanding the MEAN Stack
-MEAN Stack Discussion Post Draft
-KVM Switch: Dual DP and USB Explained
-Kali Practice Test Walkthrough
-Moving Linux Drive: Grub Rescue Fix
-Linux Terminal Commands and IP Addresses
-Virtual Lab for Network Scanning Practice
-Rad Tech Program Prerequisites and Application
-Secure OpenClaw on Kali Linux
-Identifying Sign Standoff Hardware
-Mini PC Cooling Stand Design
-3D Model Prompt for Mini PC Stand
-Linux Permissions Lab Explained
-Project Kickoff and Understanding
-Online Paste Libraries and Tools
-Responding to Data Science Article Summary
-Mini PC Storage Expansion Options
-Shibuya Day Trip Route Optimization
-Shibuya Day Trip: Sights and Shopping
-Asakusa Private Baths and Ryokans
-Tokyo Cherry Blossoms Near Asakusa
-Conversation with Gemini
-You said
-
-MAKE THIS LESS AI
-
-    Query successful
-
-Gemini said
-SentinelSearch: Google-Inspired Passive Recon
+## SentinelSearch: Google-Inspired Passive Recon
 
 SentinelSearch is a web-based tool designed for passive vulnerability discovery and defensive reconnaissance. It adapts the familiar "search engine" experience to cybersecurity education, helping users map a target’s public footprint to find hardening gaps and exposure indicators.
 
@@ -271,3 +223,6 @@ Each host intentionally exposes a different passive hardening issue profile:
 <img width="2009" height="1323" alt="image" src="https://github.com/user-attachments/assets/dea6b40b-d175-4af1-8c46-a31d3b30095b" />
 
 <img width="2009" height="1267" alt="image" src="https://github.com/user-attachments/assets/d7127413-ea63-45af-9b1f-3802be3feafa" />
+
+README.md
+Displaying README.md.
