@@ -21,7 +21,9 @@ What it does:
 ## Quick Start
 
    Install dependencies:
+   
    Setup your environment: (Create a .env file to add your API key for AI feature)
+   
    Run The App
 
 
